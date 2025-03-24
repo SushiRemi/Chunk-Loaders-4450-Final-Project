@@ -1,1 +1,5 @@
 /ChunkLoaders-4450-Final-Project/nbproject/private/
+lib/macosx/*
+lib/windows/*
+build/
+dist/
