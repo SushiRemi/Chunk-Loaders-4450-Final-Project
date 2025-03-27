@@ -25,7 +25,7 @@
     </target>
 
     <target name="run" depends="compile">
-        <java classname="Main" classpath="build:${lwjgl.lib}/lwjgl.jar">
+        <java classname="chunkloaders.pkg4450.pkgfinal.project.ChunkLoaders4450FinalProject" classpath="build:${lwjgl.lib}/lwjgl.jar">
             <jvmarg value="-Djava.library.path=${lwjgl.lib}" />
         </java>
     </target>
