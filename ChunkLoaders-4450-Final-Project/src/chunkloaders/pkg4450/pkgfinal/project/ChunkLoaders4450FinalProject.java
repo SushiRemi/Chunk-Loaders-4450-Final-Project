@@ -8,16 +8,25 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.glu.GLU;
 
 /**
  *
- * @author Julianne, Valen
+ * @author Julianne, Valen, Ada
  */
 public class ChunkLoaders4450FinalProject {
     // FOR TESTING
     private float rotation = 0.0f;
     // FOR TESTING
+    
+    // Create cam controller
+    private Camera camera;
+    
+    //Create mouse and keyboard controller
+    private MouseMove mouseMove;
+    private KeyboardMove keyboardMove;
+    
     
     public void start() 
     { 
@@ -54,6 +63,13 @@ public class ChunkLoaders4450FinalProject {
          
         glMatrixMode(GL_MODELVIEW);  
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); 
+        
+        // Initialize camera, mouse, and keyboard
+        camera = new Camera(0.0f, 0.0f, 0.0f);
+        keyboardMove = new KeyboardMove(camera);
+        // Pin mouse to window
+        Mouse.setGrabbed(true);
+        mouseMove = new MouseMove(camera);
     }
     private void render()
     {
@@ -64,16 +80,20 @@ public class ChunkLoaders4450FinalProject {
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
                 glLoadIdentity(); 
                 
-                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
-                // Might have to tweak this for your code @Juli // 
-                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+                // Update mouse and keyboard movements
+                mouseMove.update();
+                keyboardMove.update();
+                // Update camera config
+                camera.lookThrough();
+                
+                
                 glTranslatef(0.0f, 0.0f, -5.0f); // Move cube into view
                 
                 // FOR TESTING
                 glRotatef(rotation, 1.0f, 1.0f, 0.0f);
                 // FOR TESTING
                 
-                drawCube();
+                Cube.draw();
                 
                 // FOR TESTING
                 rotation += 0.5f;
@@ -89,107 +109,7 @@ public class ChunkLoaders4450FinalProject {
         }
     }
     
-    private void drawCube()
-    {
-        try
-        {
-            glBegin(GL_QUADS);
-                // Front face (red)
-                glColor3f(1.0f, 0.0f, 0.0f);
-                glVertex3f(-1.0f, -1.0f,  1.0f);
-                glVertex3f( 1.0f, -1.0f,  1.0f);
-                glVertex3f( 1.0f,  1.0f,  1.0f);
-                glVertex3f(-1.0f,  1.0f,  1.0f);
 
-                // Back face (green)
-                glColor3f(0.0f, 1.0f, 0.0f);
-                glVertex3f(-1.0f, -1.0f, -1.0f);
-                glVertex3f(-1.0f,  1.0f, -1.0f);
-                glVertex3f( 1.0f,  1.0f, -1.0f);
-                glVertex3f( 1.0f, -1.0f, -1.0f);
-
-                // Left face (blue)
-                glColor3f(0.0f, 0.0f, 1.0f);
-                glVertex3f(-1.0f, -1.0f, -1.0f);
-                glVertex3f(-1.0f, -1.0f,  1.0f);
-                glVertex3f(-1.0f,  1.0f,  1.0f);
-                glVertex3f(-1.0f,  1.0f, -1.0f);
-
-                // Right face (yellow)
-                glColor3f(1.0f, 1.0f, 0.0f);
-                glVertex3f( 1.0f, -1.0f, -1.0f);
-                glVertex3f( 1.0f,  1.0f, -1.0f);
-                glVertex3f( 1.0f,  1.0f,  1.0f);
-                glVertex3f( 1.0f, -1.0f,  1.0f);
-
-                // Top face (cyan)
-                glColor3f(0.0f, 1.0f, 1.0f);
-                glVertex3f(-1.0f,  1.0f, -1.0f);
-                glVertex3f(-1.0f,  1.0f,  1.0f);
-                glVertex3f( 1.0f,  1.0f,  1.0f);
-                glVertex3f( 1.0f,  1.0f, -1.0f);
-
-                // Bottom face (magenta)
-                glColor3f(1.0f, 0.0f, 1.0f);
-                glVertex3f(-1.0f, -1.0f, -1.0f);
-                glVertex3f( 1.0f, -1.0f, -1.0f);
-                glVertex3f( 1.0f, -1.0f,  1.0f);
-                glVertex3f(-1.0f, -1.0f,  1.0f);
-            glEnd();
-            
-            glBegin(GL_LINE_LOOP); 
-                // Sets frame color to white
-                glColor3f(1.0f,1.0f,1.0f); 
-                
-                //Top 
-                glVertex3f( 1.0f, 1.0f,-1.0f); 
-                glVertex3f(-1.0f, 1.0f,-1.0f); 
-                glVertex3f(-1.0f, 1.0f, 1.0f); 
-                glVertex3f( 1.0f, 1.0f, 1.0f); 
-            glEnd();
-            glBegin(GL_LINE_LOOP); 
-                //Bottom 
-                glVertex3f( 1.0f,-1.0f, 1.0f); 
-                glVertex3f(-1.0f,-1.0f, 1.0f); 
-                glVertex3f(-1.0f,-1.0f,-1.0f); 
-                glVertex3f( 1.0f,-1.0f,-1.0f); 
-            glEnd();
-            
-            glBegin(GL_LINE_LOOP); 
-                //Front 
-                glVertex3f( 1.0f, 1.0f, 1.0f); 
-                glVertex3f(-1.0f, 1.0f, 1.0f); 
-                glVertex3f(-1.0f,-1.0f, 1.0f); 
-                glVertex3f( 1.0f,-1.0f, 1.0f); 
-            glEnd();
-            glBegin(GL_LINE_LOOP); 
-                //Back 
-                glVertex3f( 1.0f,-1.0f,-1.0f); 
-                glVertex3f(-1.0f,-1.0f,-1.0f); 
-                glVertex3f(-1.0f, 1.0f,-1.0f); 
-                glVertex3f( 1.0f, 1.0f,-1.0f); 
-            glEnd();
-            
-            glBegin(GL_LINE_LOOP); 
-                //Left 
-                glVertex3f(-1.0f, 1.0f, 1.0f); 
-                glVertex3f(-1.0f, 1.0f,-1.0f); 
-                glVertex3f(-1.0f,-1.0f,-1.0f); 
-                glVertex3f(-1.0f,-1.0f, 1.0f);
-            glEnd();            
-            glBegin(GL_LINE_LOOP); 
-                //Right 
-                glVertex3f( 1.0f, 1.0f,-1.0f); 
-                glVertex3f( 1.0f, 1.0f, 1.0f); 
-                glVertex3f( 1.0f,-1.0f, 1.0f); 
-                glVertex3f( 1.0f,-1.0f,-1.0f);
-            glEnd();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
     /**
      * @param args the command line arguments
      */
