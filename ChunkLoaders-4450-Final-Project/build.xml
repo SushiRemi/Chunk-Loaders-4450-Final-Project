@@ -10,6 +10,25 @@
 <project name="ChunkLoaders-4450-Final-Project" default="default" basedir=".">
     <description>Builds, tests, and runs the project ChunkLoaders-4450-Final-Project.</description>
     <import file="nbproject/build-impl.xml"/>
+
+    <!--   Added code for machine compatibility   -->
+    <property name="platform" value="${os.name}" />
+    <property name="lwjgl.lib" value="lib/windows" />
+
+    <condition property="lwjgl.lib" value="lib/macosx">
+        <equals arg1="${platform}" arg2="Mac OS X" />
+    </condition>
+
+    <target name="compile">
+        <mkdir dir="build" />
+        <javac srcdir="src" destdir="build" classpath="${lwjgl.lib}/lwjgl.jar" includeantruntime="false"/>
+    </target>
+
+    <target name="run" depends="compile">
+        <java classname="Main" classpath="build:${lwjgl.lib}/lwjgl.jar">
+            <jvmarg value="-Djava.library.path=${lwjgl.lib}" />
+        </java>
+    </target>
     <!--
 
     There exist several targets which are by default empty and which can be 
