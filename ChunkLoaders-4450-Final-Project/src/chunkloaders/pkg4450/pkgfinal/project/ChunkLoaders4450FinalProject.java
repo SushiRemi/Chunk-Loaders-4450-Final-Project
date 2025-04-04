@@ -4,6 +4,7 @@
  */
 package chunkloaders.pkg4450.pkgfinal.project;
 
+import java.util.Random;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
@@ -122,9 +123,9 @@ public class ChunkLoaders4450FinalProject {
         int chunkSize = 30; //make sure this is same as chunkSize in Chunk.java
         
         //Random seed generation
-        long min = Long.MIN_VALUE;
-        long max = Long.MAX_VALUE;
-        seed = (long)(Math.random() * (max - min + 1) + min);
+        Random rand = new Random();
+        seed = rand.nextLong();
+        System.out.println("Randomly Generated Seed: " + seed);
         // randomNum will be between min and max (inclusive)
         
         int worldLength = chunkLength*chunkSize;
