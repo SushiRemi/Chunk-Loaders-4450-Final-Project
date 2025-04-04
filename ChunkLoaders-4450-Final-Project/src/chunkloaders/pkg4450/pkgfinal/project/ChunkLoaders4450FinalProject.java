@@ -51,9 +51,10 @@ public class ChunkLoaders4450FinalProject {
     private void initGL() 
     { 
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f); 
-         
-        // Enables depth testing and fixes not being able to
-        // see the red face :D
+        
+        glEnableClientState(GL_VERTEX_ARRAY); 
+        glEnableClientState(GL_COLOR_ARRAY); 
+        // I predicted the future hehe
         glEnable(GL_DEPTH_TEST);
         
         glMatrixMode(GL_PROJECTION);  
