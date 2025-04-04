@@ -27,11 +27,18 @@ public class ChunkLoaders4450FinalProject {
     private MouseMove mouseMove;
     private KeyboardMove keyboardMove;
     
+    //Terrain Generation code
+    int[][] heightMap;
+    int baseHeight;
+    long seed;
+    
     
     public void start() 
     { 
+        
         try  
         { 
+            initializeTerrain(50, 2, 2); //To generate Terrain map with parameters(base height, chunk width, chunk length)
             createWindow(); 
             initGL(); 
             render();
@@ -110,6 +117,22 @@ public class ChunkLoaders4450FinalProject {
         }
     }
     
+    private void initializeTerrain(int bHeight, int chunkWidth, int chunkLength){
+        baseHeight = bHeight;
+        int chunkSize = 30; //make sure this is same as chunkSize in Chunk.java
+        
+        //Random seed generation
+        long min = Long.MIN_VALUE;
+        long max = Long.MAX_VALUE;
+        seed = (long)(Math.random() * (max - min + 1) + min);
+        // randomNum will be between min and max (inclusive)
+        
+        int worldLength = chunkLength*chunkSize;
+        int worldWidth = chunkWidth*chunkSize;
+        
+        //heightMap = new int[chunkWidth * chunkSize][chunkLength * chunkSize];
+        heightMap = TerrainGenerator.getRandomHeightMap(seed, worldWidth, worldLength, baseHeight);
+    }
 
     /**
      * @param args the command line arguments

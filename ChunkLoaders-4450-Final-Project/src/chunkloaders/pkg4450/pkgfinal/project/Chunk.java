@@ -17,6 +17,7 @@ import static org.lwjgl.opengl.GL15.*;
 public class Chunk 
 {
     static final int CHUNK_SIZE = 30;
+    static final int WORLD_HEIGHT = 100;
     static final int CUBE_LENGTH = 2;
     private Block[][][] Blocks;
     private int VBOVertexHandle;
@@ -148,11 +149,11 @@ public class Chunk
     public Chunk(int startX, int startY, int startZ) 
     { 
         r = new Random(); 
-        Blocks = new Block[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE]; 
+        Blocks = new Block[CHUNK_SIZE][WORLD_HEIGHT][CHUNK_SIZE]; 
         
         for (int x = 0; x < CHUNK_SIZE; x++) 
         { 
-            for (int y = 0; y < CHUNK_SIZE; y++) 
+            for (int y = 0; y < WORLD_HEIGHT; y++) 
             { 
                 for (int z = 0; z < CHUNK_SIZE; z++) 
                 { 
