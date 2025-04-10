@@ -6,7 +6,7 @@ package chunkloaders.pkg4450.pkgfinal.project;
 
 /**
  *
- * @author Ada,
+ * @author Ada, Julianne
  */
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -27,6 +27,24 @@ public class KeyboardMove {
         ///////////////////
         //TO DO: Key Bounds
         ///////////////////
+        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+            camera.moveForward(dy);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+            camera.strafeLeft(dy);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+            camera.moveBack(dy);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+            camera.strafeRight(dy);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+            camera.moveDown(dy);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+            camera.moveUp(dy);
+        }
         
         // Esc to quit
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {

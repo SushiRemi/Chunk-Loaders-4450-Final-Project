@@ -4,6 +4,7 @@
  */
 package chunkloaders.pkg4450.pkgfinal.project;
 
+import java.util.Random;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
@@ -27,11 +28,18 @@ public class ChunkLoaders4450FinalProject {
     private MouseMove mouseMove;
     private KeyboardMove keyboardMove;
     
+    //Terrain Generation code
+    int[][] heightMap;
+    int baseHeight;
+    long seed;
+    
     
     public void start() 
     { 
+        
         try  
         { 
+            initializeTerrain(50, 2, 2); //To generate Terrain map with parameters(base height, chunk width, chunk length)
             createWindow(); 
             initGL(); 
             render();
@@ -51,9 +59,10 @@ public class ChunkLoaders4450FinalProject {
     private void initGL() 
     { 
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f); 
-         
-        // Enables depth testing and fixes not being able to
-        // see the red face :D
+        
+        glEnableClientState(GL_VERTEX_ARRAY); 
+        glEnableClientState(GL_COLOR_ARRAY); 
+        // I predicted the future hehe
         glEnable(GL_DEPTH_TEST);
         
         glMatrixMode(GL_PROJECTION);  
@@ -109,6 +118,22 @@ public class ChunkLoaders4450FinalProject {
         }
     }
     
+    private void initializeTerrain(int bHeight, int chunkWidth, int chunkLength){
+        baseHeight = bHeight;
+        int chunkSize = 30; //make sure this is same as chunkSize in Chunk.java
+        
+        //Random seed generation
+        Random rand = new Random();
+        seed = rand.nextLong();
+        System.out.println("Randomly Generated Seed: " + seed);
+        // randomNum will be between min and max (inclusive)
+        
+        int worldLength = chunkLength*chunkSize;
+        int worldWidth = chunkWidth*chunkSize;
+        
+        //heightMap = new int[chunkWidth * chunkSize][chunkLength * chunkSize];
+        heightMap = TerrainGenerator.getRandomHeightMap(seed, worldWidth, worldLength, baseHeight);
+    }
 
     /**
      * @param args the command line arguments
