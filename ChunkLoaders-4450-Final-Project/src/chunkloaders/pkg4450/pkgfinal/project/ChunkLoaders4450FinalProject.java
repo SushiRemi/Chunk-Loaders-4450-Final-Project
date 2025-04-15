@@ -80,7 +80,7 @@ public class ChunkLoaders4450FinalProject {
         camera = new Camera(0.0f, 0.0f, 0.0f);
         keyboardMove = new KeyboardMove(camera);
         // Init chunk creation
-        chunk = new Chunk(0.0f, heightMap.length, 0.0f);
+        chunk = new Chunk(0.0f, 0.0f, 0.0f);
         // Pin mouse to window
         Mouse.setGrabbed(true);
         mouseMove = new MouseMove(camera);
