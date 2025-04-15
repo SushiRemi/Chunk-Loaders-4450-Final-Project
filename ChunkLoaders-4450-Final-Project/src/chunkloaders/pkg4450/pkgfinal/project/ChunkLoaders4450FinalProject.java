@@ -23,6 +23,9 @@ public class ChunkLoaders4450FinalProject {
     
     // Create cam controller
     private Camera camera;
+
+    // Create chunk
+    private Chunk chunk;
     
     //Create mouse and keyboard controller
     private MouseMove mouseMove;
@@ -76,6 +79,8 @@ public class ChunkLoaders4450FinalProject {
         // Initialize camera, mouse, and keyboard
         camera = new Camera(0.0f, 0.0f, 0.0f);
         keyboardMove = new KeyboardMove(camera);
+        // Init chunk creation
+        chunk = new Chunk(0.0f, heightMap.length, 0.0f);
         // Pin mouse to window
         Mouse.setGrabbed(true);
         mouseMove = new MouseMove(camera);
@@ -94,7 +99,8 @@ public class ChunkLoaders4450FinalProject {
                 keyboardMove.update();
                 // Update camera config
                 camera.lookThrough();
-                
+                // Generate chunks
+                chunk.render();
                 
                 glTranslatef(0.0f, 0.0f, -5.0f); // Move cube into view
                 
