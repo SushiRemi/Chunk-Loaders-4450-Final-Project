@@ -75,6 +75,9 @@ public class Chunk
             {
                 for (float y = 0; y < WORLD_HEIGHT; y++)
                 {
+                    Block block = Blocks[(int) x][(int) y][(int) z];
+                    if (block == null || block.getID() == Block.BlockType.BlockType_Default.getID()) continue;
+
                     VertexPositionData.put(createCube((float)(startX + x * CUBE_LENGTH), (float)((int)(CHUNK_SIZE * 0.8) + y * CUBE_LENGTH), (float)(startZ + z * CUBE_LENGTH)));
                     VertexColorData.put(createCubeVertexCol(getCubeColor(Blocks[(int) x]
                                                                                [(int) y] 
