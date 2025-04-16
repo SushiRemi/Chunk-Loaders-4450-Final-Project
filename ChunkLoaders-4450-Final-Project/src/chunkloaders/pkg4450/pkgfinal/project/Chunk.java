@@ -214,7 +214,7 @@ private static float[] createTexCubeFromTile(int tileX, int tileY, float tileSiz
         return new float[] { 1, 1, 1 }; 
     }
     
-    public Chunk(float startX, float startY, float startZ) 
+    public Chunk(float startX, float startY, float startZ, int[][] heightMap) 
     {   
         try{texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("/src/chunkloaders/pkg4450/pkgfinal/project/terrain.png"));
         }
@@ -226,31 +226,32 @@ private static float[] createTexCubeFromTile(int tileX, int tileY, float tileSiz
         r = new Random(); 
         Blocks = new Block[CHUNK_SIZE][WORLD_HEIGHT][CHUNK_SIZE]; 
         
-        for (int x = 0; x < CHUNK_SIZE; x++) 
-        { 
-            for (int y = 0; y < WORLD_HEIGHT; y++) 
-            { 
-                for (int z = 0; z < CHUNK_SIZE; z++) 
-                { 
-                    if (r.nextFloat()>0.7f)
-                    { 
-                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Grass); 
-                    }
-                    else if (r.nextFloat()>0.4f)
-                    { 
-                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Dirt); 
-                    }
-                    else if (r.nextFloat()>0.2f)
-                    { 
-                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Water); 
+        for (int x = 0; x < CHUNK_SIZE; x++)
+        {
+            for (int z = 0; z < CHUNK_SIZE; z++)
+            {
+                int worldH = heightMap[z][x];
+                
+                for (int y = 0; y < WORLD_HEIGHT; y++)
+                {
+                    if (y < worldH)
+                    {
+                        if (y > worldH - 2)
+                        {
+                            Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Grass); 
+                        }
+                        else
+                        {
+                            Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Dirt); 
+                        }
                     }
                     else
-                    { 
-                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Default); 
-                    } 
-                } 
-            } 
-        } 
+                    {
+                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Default);
+                    }
+                }
+            }
+        }
         
         VBOColorHandle = glGenBuffers(); 
         VBOVertexHandle = glGenBuffers(); 
