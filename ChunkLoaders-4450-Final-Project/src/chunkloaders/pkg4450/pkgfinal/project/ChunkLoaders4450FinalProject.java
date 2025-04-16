@@ -79,7 +79,7 @@ public class ChunkLoaders4450FinalProject {
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); 
         
         // Initialize camera, mouse, and keyboard
-        camera = new Camera(0.0f, 0.0f, 0.0f);
+        camera = new Camera(0.0f, -100.0f, 0.0f);
         keyboardMove = new KeyboardMove(camera);
         // Init chunk creation
         chunk = new Chunk(0.0f, 0.0f, 0.0f, heightMap);

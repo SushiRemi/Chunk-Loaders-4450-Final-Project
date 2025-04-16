@@ -33,6 +33,11 @@ public class Chunk
     
     public void render()
     {
+        
+        //Enables PNG Transparency
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        
         glPushMatrix();
         //texture.bind();
             glBindBuffer(GL_ARRAY_BUFFER, VBOVertexHandle);
@@ -84,6 +89,8 @@ public class Chunk
         VertexPositionData.flip(); 
         VertexTextureData.flip();
         
+        
+        
         glBindBuffer(GL_ARRAY_BUFFER, VBOVertexHandle); 
         glBufferData(GL_ARRAY_BUFFER, VertexPositionData, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0); 
@@ -106,7 +113,7 @@ public static float[] createTexCube(float x, float y, Block block) {
 
     switch (block.getID()) {
         case 0: // Default
-            tileX = 5; tileY = 11;
+            tileX = 4; tileY = 11;
             break;
         case 1: // Grass
             tileX = 3; tileY = 0;
@@ -220,7 +227,7 @@ private static float[] createTexCubeFromTile(int tileX, int tileY, float tileSiz
         }
         catch(Exception e)
         {
-            System.out.print("EROAR!");
+            System.out.print("ERROR!");
         }
 
         r = new Random(); 
