@@ -106,22 +106,22 @@ public static float[] createTexCube(float x, float y, Block block) {
 
     switch (block.getID()) {
         case 0: // Default
-            tileX = 0; tileY = 0;
+            tileX = 5; tileY = 11;
             break;
         case 1: // Grass
-            tileX = 5; tileY = 4;
+            tileX = 3; tileY = 0;
             break;
         case 2: // Sand
             tileX = 0; tileY = 11;
             break;
         case 3: // Water
-            tileX = 8; tileY = 1;
+            tileX = 14; tileY = 0;
             break;
         case 4: // Dirt
-            tileX = 3; tileY = 0;
+            tileX = 2; tileY = 0;
             break;
         case 5: // Stone
-            tileX = 0; tileY = 1;
+            tileX = 1; tileY = 0;
             break;
         case 6: // Bedrock
             tileX = 1; tileY = 1;
