@@ -64,6 +64,8 @@ public class ChunkLoaders4450FinalProject {
         glEnableClientState(GL_COLOR_ARRAY); 
         // I predicted the future hehe
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_TEXTURE_2D);
+        glEnableClientState (GL_TEXTURE_COORD_ARRAY);
         
         glMatrixMode(GL_PROJECTION);  
         glLoadIdentity();  
@@ -102,7 +104,7 @@ public class ChunkLoaders4450FinalProject {
                 glRotatef(rotation, 1.0f, 1.0f, 0.0f);
                 // FOR TESTING
                 
-                Cube.draw();
+                //Cube.draw();
                 
                 // FOR TESTING
                 rotation += 0.5f;
