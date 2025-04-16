@@ -142,9 +142,9 @@ public static float[] createTexCube(float x, float y, Block block) {
 }
 private static float[] createTexCubeFromTile(int tileX, int tileY, float tileSize) {
     float xMin = tileX * tileSize;
-    float yMin = tileY * tileSize;
+    float yMax = tileY * tileSize;
     float xMax = xMin + tileSize;
-    float yMax = yMin + tileSize;
+    float yMin = yMax + tileSize;
 
     return new float[] {
         // TOP
