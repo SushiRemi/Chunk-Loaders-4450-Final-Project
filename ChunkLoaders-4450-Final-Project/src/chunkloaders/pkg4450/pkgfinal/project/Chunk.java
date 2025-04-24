@@ -250,6 +250,10 @@ private static float[] createTexCubeFromTile(int tileX, int tileY, float tileSiz
                         {
                             Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Grass); 
                         }
+                        else if (y < worldH - (worldH - 1))
+                        {
+                            Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Bedrock);
+                        }
                         else
                         {
                             Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Dirt); 
