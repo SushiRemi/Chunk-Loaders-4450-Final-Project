@@ -146,6 +146,44 @@ private static float[] createTexCubeFromTile(int tileX, int tileY, float tileSiz
     float xMax = xMin + tileSize;
     float yMin = yMax + tileSize;
 
+    //Case Grass, need to change top texture
+    if(tileX == 3 && tileY == 0){
+        
+        int grassTileX = 0;
+        int grassTileY = 0;
+        
+        float xGrassMin =  grassTileX * tileSize;
+        float yGrassMax = grassTileY * tileSize;
+        float xGrassMax = xGrassMin + tileSize;
+        float yGrassMin = yGrassMax + tileSize;
+        
+        int dirtTileX = 2;
+        int dirtTileY = 0;
+        
+        float xDirtMin =  dirtTileX * tileSize;
+        float yDirtMax = dirtTileY * tileSize;
+        float xDirtMax = xDirtMin + tileSize;
+        float yDirtMin = yDirtMax + tileSize;
+                
+        
+        return new float[] {
+        // TOP
+        xGrassMax, yGrassMax,  xGrassMin, yGrassMax,  xGrassMin, yGrassMin,  xGrassMax, yGrassMin,
+        // BOTTOM
+        xDirtMax, yDirtMax,  xDirtMin, yDirtMax,  xDirtMin, yDirtMin,  xDirtMax, yDirtMin,
+        // FRONT
+        xMax, yMax,  xMin, yMax,  xMin, yMin,  xMax, yMin,
+        // BACK
+        //xMax, yMax,  xMin, yMax,  xMin, yMin,  xMax, yMin,
+        xMin, yMin,  xMax, yMin,  xMax, yMax,  xMin, yMax,
+        // LEFT
+        xMax, yMax,  xMin, yMax,  xMin, yMin,  xMax, yMin,
+        // RIGHT
+        xMax, yMax,  xMin, yMax,  xMin, yMin,  xMax, yMin
+    };
+    }
+    
+    
     return new float[] {
         // TOP
         xMax, yMax,  xMin, yMax,  xMin, yMin,  xMax, yMin,
