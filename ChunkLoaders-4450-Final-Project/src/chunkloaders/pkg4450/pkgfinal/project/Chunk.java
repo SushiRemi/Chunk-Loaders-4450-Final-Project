@@ -224,7 +224,7 @@ private static float[] createTexCubeFromTile(int tileX, int tileY, float tileSiz
         return new float[] { 1, 1, 1 }; 
     }
     
-    public Chunk(float startX, float startY, float startZ, int[][] heightMap) 
+    public Chunk(float startX, float startY, float startZ, int[][] heightMap, int[][] topBlockMap, int[][][] undergroundBlockMap) 
     {   
         try{texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("/src/chunkloaders/pkg4450/pkgfinal/project/terrain.png"));
         }
@@ -241,25 +241,39 @@ private static float[] createTexCubeFromTile(int tileX, int tileY, float tileSiz
             for (int z = 0; z < CHUNK_SIZE; z++)
             {
                 int worldH = heightMap[z][x];
+                int topBlock = topBlockMap[z][x];
                 
                 for (int y = 0; y < WORLD_HEIGHT; y++)
                 {
+                    int undergroundBlock = undergroundBlockMap[z][y][x];
                     if (y < worldH)
                     {
-                        if (y > worldH - 2)
+                        if (y > worldH - 2) //Top layer
                         {
-                            Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Grass); 
+                            if(topBlock < -2){
+                                Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Water);
+                            } else if (topBlock < 0) {
+                                Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Sand);
+                            } else {
+                                Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Grass);
+                            }
+                            
+                            
                         }
-                        else if (y < worldH - (worldH - 1))
+                        else if (y < worldH - (worldH - 1)) //Bottom Layer
                         {
                             Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Bedrock);
                         }
-                        else
+                        else //Middle Layers
                         {
-                            Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Dirt); 
+                            if(undergroundBlock %2 == 0){
+                                Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Dirt);
+                            } else {
+                                Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Stone);
+                            }
                         }
                     }
-                    else
+                    else //Empty air
                     {
                         Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Default);
                     }

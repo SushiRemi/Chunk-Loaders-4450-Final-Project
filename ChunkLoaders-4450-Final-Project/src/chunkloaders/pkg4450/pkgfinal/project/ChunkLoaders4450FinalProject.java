@@ -33,6 +33,8 @@ public class ChunkLoaders4450FinalProject {
     
     //Terrain Generation code
     int[][] heightMap;
+    int[][] topBlockMap;
+    int[][][] undergroundBlockMap;
     int baseHeight;
     long seed;
     
@@ -79,10 +81,10 @@ public class ChunkLoaders4450FinalProject {
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); 
         
         // Initialize camera, mouse, and keyboard
-        camera = new Camera(0.0f, -100.0f, 0.0f);
+        camera = new Camera(0.0f, -120.0f, 0.0f);
         keyboardMove = new KeyboardMove(camera);
         // Init chunk creation
-        chunk = new Chunk(0.0f, 0.0f, 0.0f, heightMap);
+        chunk = new Chunk(0.0f, 0.0f, 0.0f, heightMap, topBlockMap, undergroundBlockMap);
         // Pin mouse to window
         Mouse.setGrabbed(true);
         mouseMove = new MouseMove(camera);
@@ -133,7 +135,7 @@ public class ChunkLoaders4450FinalProject {
         //Random seed generation
         Random rand = new Random();
         seed = rand.nextLong();
-        System.out.println("Randomly Generated Seed: " + seed);
+        System.out.println("Randomly Generated Height Map Seed: " + seed);
         // randomNum will be between min and max (inclusive)
         
         int worldLength = chunkLength*chunkSize;
@@ -141,6 +143,19 @@ public class ChunkLoaders4450FinalProject {
         
         //heightMap = new int[chunkWidth * chunkSize][chunkLength * chunkSize];
         heightMap = TerrainGenerator.getRandomHeightMap(seed, worldWidth, worldLength, baseHeight);
+        
+        
+        //New seed for top block gen
+        seed = rand.nextLong();
+        System.out.println("Randomly Generated Top Block Map Seed: " + seed);
+        
+        topBlockMap = TerrainGenerator.getRandomTopBlockMap(seed, worldWidth, worldLength);
+        
+        //New seed for underground block gen
+        seed = rand.nextLong();
+        System.out.println("Randomly Generated Underground Block Map Seed: " + seed);
+        
+        undergroundBlockMap = TerrainGenerator.getRandomUndergroundBlockMap(seed, worldWidth, worldLength);
     }
 
     /**
