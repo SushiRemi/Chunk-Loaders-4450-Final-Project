@@ -264,7 +264,7 @@ private static float[] createTexCubeFromTile(int tileX, int tileY, float tileSiz
     
     public Chunk(float startX, float startY, float startZ, int[][] heightMap, int[][] topBlockMap, int[][][] undergroundBlockMap) 
     {   
-        try{texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("/src/chunkloaders/pkg4450/pkgfinal/project/terrain.png"));
+        try{texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("/src/chunkloaders/pkg4450/pkgfinal/project/terrain2.png"));
         }
         catch(Exception e)
         {
