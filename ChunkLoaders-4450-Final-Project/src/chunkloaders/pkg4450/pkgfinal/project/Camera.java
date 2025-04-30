@@ -16,17 +16,44 @@ import static org.lwjgl.opengl.GL11.*;
 
 
 import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
+import static org.lwjgl.opengl.GL11.*;
+import org.lwjgl.Sys;
+
 
 // Camera controller
 public class Camera {
     // Pos x,y,z
-    protected Vector3f position;
-    protected float yaw;
-    protected float pitch;
+    private Vector3f position = null;
+    private Vector3f lPosition = null;
+    private float yaw = 0.0f;
+    private float pitch = 0.0f;
+    private Vector3Float me;
+    
 
     public Camera(float x, float y, float z) {
-        this.position = new Vector3f(x, y, z);
+        position = new Vector3f(x, y, z);
+        lPosition = new Vector3f(x,y,z);
+        lPosition.x = 0f;
+        lPosition.y = 15f;
+        lPosition.z = 0f;
     }
+    
+    public void yaw(float amount)
+    {
+    //increment the yaw by the amount param
+    yaw += amount;
+    }
+    //increment the camera's current yaw rotation
+    public void pitch(float amount)
+    {
+    //increment the pitch by the amount param
+    pitch -= amount;
+    }
+
     
     // Code from Canvas
     public void lookThrough() {
@@ -35,40 +62,44 @@ public class Camera {
         glTranslatef(position.x, position.y, position.z);
     }
 
-    public void rotate(float deltaYaw, float deltaPitch) {
-        yaw += deltaYaw;
-        pitch -= deltaPitch;
 
-        if (pitch > 90) pitch = 90;
-        if (pitch < -90) pitch = -90;
-    }
+
 
     public void moveForward(float distance) {
-        position.x -= distance * (float) Math.sin(Math.toRadians(yaw));
-        position.z += distance * (float) Math.cos(Math.toRadians(yaw));
+        float xOffset = distance * (float)Math.sin(Math.toRadians(yaw));
+        float zOffset = distance * (float)Math.cos(Math.toRadians(yaw));
+        position.x -= xOffset;
+        position.z += zOffset;
+        
     }
 
     public void moveBack(float distance) {
-        position.x += distance * (float) Math.sin(Math.toRadians(yaw));
-        position.z -= distance * (float) Math.cos(Math.toRadians(yaw));
+        float xOffset = distance * (float)Math.sin(Math.toRadians(yaw));
+        float zOffset = distance * (float)Math.cos(Math.toRadians(yaw));
+        position.x += xOffset;
+        position.z -= zOffset;
     }
 
     public void strafeLeft(float distance) {
-        position.x -= distance * (float) Math.sin(Math.toRadians(yaw - 90));
-        position.z += distance * (float) Math.cos(Math.toRadians(yaw - 90));
+        float xOffset = distance * (float)Math.sin(Math.toRadians(yaw-90));
+        float zOffset = distance * (float)Math.cos(Math.toRadians(yaw-90));
+        position.x -= xOffset;
+        position.z += zOffset;
     }
 
     public void strafeRight(float distance) {
-        position.x -= distance * (float) Math.sin(Math.toRadians(yaw + 90));
-        position.z += distance * (float) Math.cos(Math.toRadians(yaw + 90));
+        float xOffset = distance * (float)Math.sin(Math.toRadians(yaw+90));
+        float zOffset = distance * (float)Math.cos(Math.toRadians(yaw+90));
+        position.x -= xOffset;
+        position.z += zOffset;
     }
 
     public void moveUp(float distance) {
-        position.y += distance;
+        position.y -= distance;
     }
 
     public void moveDown(float distance) {
-        position.y -= distance;
+        position.y += distance;
     }
 
     public Vector3f getPosition() {
@@ -82,4 +113,8 @@ public class Camera {
     public float getPitch() {
         return pitch;
     }
+
 }
+
+
+

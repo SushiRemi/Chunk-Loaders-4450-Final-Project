@@ -5,12 +5,15 @@
 package chunkloaders.pkg4450.pkgfinal.project;
 
 import java.util.Random;
+import java.nio.FloatBuffer;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.BufferUtils;
 
 /**
  *
@@ -37,6 +40,13 @@ public class ChunkLoaders4450FinalProject {
     int[][][] undergroundBlockMap;
     int baseHeight;
     long seed;
+    
+    private FloatBuffer lightPosition;
+    private FloatBuffer whiteLight;
+    private FloatBuffer dimLight;
+    private FloatBuffer light1Pos;
+    private FloatBuffer black;
+    private FloatBuffer difLight;
     
     
     public void start() 
@@ -88,7 +98,36 @@ public class ChunkLoaders4450FinalProject {
         // Pin mouse to window
         Mouse.setGrabbed(true);
         mouseMove = new MouseMove(camera);
+        
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+        glEnable(GL_LIGHT1);
+        glEnable(GL_NORMALIZE);
+        glEnable(GL_COLOR_MATERIAL);
+        glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+        initLightArrays();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+        glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);
+        glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);
+        glLight(GL_LIGHT0, GL_AMBIENT, dimLight);
+        
+        glLight(GL_LIGHT1, GL_POSITION, light1Pos);
+        glLight(GL_LIGHT1, GL_SPECULAR, black);
+        glLight(GL_LIGHT1, GL_DIFFUSE, difLight);
+        glLight(GL_LIGHT1, GL_AMBIENT, black);
     }
+    
+    private void updateLightPosition(){
+        Vector3f camPos = camera.getPosition();
+        lightPosition.clear();
+        lightPosition.put(1.0f).put(-1.0f).put(1.0f).put(0.0f);
+        lightPosition.flip();
+
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+
+        
+    }
+    
     private void render()
     {
         while (!Display.isCloseRequested())
@@ -156,6 +195,32 @@ public class ChunkLoaders4450FinalProject {
         System.out.println("Randomly Generated Underground Block Map Seed: " + seed);
         
         undergroundBlockMap = TerrainGenerator.getRandomUndergroundBlockMap(seed, worldWidth, worldLength);
+    }
+    
+    private void initLightArrays(){
+        lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(-1.0f).put(0.0f).put(0.0f).put(0.0f).flip();
+        whiteLight = BufferUtils.createFloatBuffer(4);
+        whiteLight.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
+        dimLight = BufferUtils.createFloatBuffer(4);
+        dimLight.put(0.1f).put(0.1f).put(0.1f).put(1.0f).flip();
+        
+        light1Pos = BufferUtils.createFloatBuffer(4);
+
+        light1Pos.put(1.0f).put(-1.0f).put(0.0f).put(0.0f).flip();  // directional
+
+
+
+        difLight = BufferUtils.createFloatBuffer(4);
+        difLight.put(0.3f).put(0.3f).put(0.4f).put(1.0f).flip();
+
+
+
+        black = BufferUtils.createFloatBuffer(4);
+        black.put(0.0f).put(0.0f).put(0.0f).put(1.0f).flip();
+
+        
+        
     }
 
     /**

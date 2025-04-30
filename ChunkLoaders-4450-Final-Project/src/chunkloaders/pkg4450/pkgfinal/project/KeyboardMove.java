@@ -20,31 +20,26 @@ public class KeyboardMove {
     }
 
     public void update() {
-        float dx = (float) Math.sin(Math.toRadians(this.camera.yaw)) * speed;
-        float dz = (float) Math.cos(Math.toRadians(this.camera.yaw)) * speed;
-        float dy = speed;
-        
-        ///////////////////
-        //TO DO: Key Bounds
-        ///////////////////
+
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            camera.moveForward(dy);
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            camera.strafeLeft(dy);
+            camera.moveForward(speed);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            camera.moveBack(dy);
+            camera.moveBack(speed);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+            camera.strafeLeft(speed);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            camera.strafeRight(dy);
+            camera.strafeRight(speed);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-            camera.moveDown(dy);
+            camera.moveDown(speed);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-            camera.moveUp(dy);
+            camera.moveUp(speed);
         }
+
         
         // Esc to quit
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
