@@ -24,10 +24,8 @@ public class ChunkLoaders4450FinalProject {
     // Create cam controller
     private Camera camera;
 
-    // Create chunks (5x5 grid)
-    private final int CHUNK_GRID_SIZE = 5;
-    private final int CHUNK_SIZE = 30;
-    private Chunk[][] chunks = new Chunk[CHUNK_GRID_SIZE][CHUNK_GRID_SIZE];
+    // Create chunk
+    private Chunk chunk;
     
     //Create mouse and keyboard controller
     private MouseMove mouseMove;
@@ -86,36 +84,7 @@ public class ChunkLoaders4450FinalProject {
         camera = new Camera(0.0f, -120.0f, 0.0f);
         keyboardMove = new KeyboardMove(camera);
         // Init chunk creation
-        for (int x = 0; x < CHUNK_GRID_SIZE; x++)
-        {
-            for (int z = 0; z < CHUNK_GRID_SIZE; z++)
-            {
-                // Extract sub-region from heightMap for this chunk
-                int[][] subMap = new int[CHUNK_SIZE][CHUNK_SIZE];
-                // Interate through matrix
-                for (int i = 0; i < CHUNK_SIZE; i++)
-                {
-                    for (int j = 0; j < CHUNK_SIZE; j++)
-                    {
-                        // Hold worldx and z within vars
-                        int worldX = x * CHUNK_SIZE + i;
-                        int worldZ = z * CHUNK_SIZE + j;
-                        
-                        // Checking bounds to make sure it works!
-                        if (worldX >= heightMap.length || worldZ >= heightMap[0].length) 
-                        {
-                            System.err.println("Out of bounds at: " + worldX + "," + worldZ);
-                        }
-                        // Create submap :D
-                        subMap[i][j] = heightMap[worldX][worldZ];
-                    }
-                }
-                
-                float worldX = x * CHUNK_SIZE;
-                float worldZ = z * CHUNK_SIZE;
-                chunks[x][z] = new Chunk(worldX, 0.0f, worldZ, subMap);
-            }
-        }
+        chunk = new Chunk(0.0f, 0.0f, 0.0f, heightMap, topBlockMap, undergroundBlockMap);
         // Pin mouse to window
         Mouse.setGrabbed(true);
         mouseMove = new MouseMove(camera);
@@ -135,13 +104,7 @@ public class ChunkLoaders4450FinalProject {
                 // Update camera config
                 camera.lookThrough();
                 // Generate chunks
-                for (int x = 0; x < CHUNK_GRID_SIZE; x++)
-                {
-                    for (int z = 0; z < CHUNK_GRID_SIZE; z++)
-                    {
-                        chunks[x][z].render();
-                    }
-                }
+                chunk.render();
                 
                 glTranslatef(0.0f, 0.0f, -5.0f); // Move cube into view
                 
