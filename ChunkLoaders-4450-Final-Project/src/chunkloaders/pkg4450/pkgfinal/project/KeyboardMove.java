@@ -32,45 +32,46 @@ public class KeyboardMove {
         ///////////////////
         if(fly){
             if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-                camera.moveForward(dy);
+                camera.moveForward(speed);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-                camera.strafeLeft(dy);
+                camera.strafeLeft(speed);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-                camera.moveBack(dy);
+                camera.moveBack(speed);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-                camera.strafeRight(dy);
+                camera.strafeRight(speed);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-                camera.moveDown(dy);
+                camera.moveDown(speed);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                camera.moveUp(dy);
+                camera.moveUp(speed);
             }
         } else {
-            camera.moveUp(2*dy); //simulate gravity
+            camera.moveUp(2*speed); //simulate gravity
             
             if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-                camera.moveForward(dy);
+                camera.moveForward(speed);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-                camera.strafeLeft(dy);
+                camera.strafeLeft(speed);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-                camera.moveBack(dy);
+                camera.moveBack(speed);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-                camera.strafeRight(dy);
+                camera.strafeRight(speed);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) && Keyboard.isRepeatEvent() == false) {
                 camera.moveDown(2);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                //camera.moveUp(dy);
+                //camera.moveUp(speed);
             }
         }
+
         
         // Esc to quit
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
