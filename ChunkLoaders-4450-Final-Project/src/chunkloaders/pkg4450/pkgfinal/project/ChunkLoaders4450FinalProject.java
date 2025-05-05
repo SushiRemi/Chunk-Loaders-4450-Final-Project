@@ -91,16 +91,21 @@ public class ChunkLoaders4450FinalProject {
     }
     private void render()
     {
+        boolean flying = true;
         while (!Display.isCloseRequested())
         {
             try
             {
+                if (Keyboard.isKeyDown(Keyboard.KEY_F)) {
+                    flying = !flying;
+                }
+                
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
                 glLoadIdentity(); 
                 
                 // Update mouse and keyboard movements
                 mouseMove.update();
-                keyboardMove.update();
+                keyboardMove.update(flying);
                 // Update camera config
                 camera.lookThrough();
                 // Generate chunks
