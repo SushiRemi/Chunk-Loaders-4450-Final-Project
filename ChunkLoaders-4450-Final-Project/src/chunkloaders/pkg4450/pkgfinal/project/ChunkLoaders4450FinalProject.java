@@ -101,7 +101,7 @@ public class ChunkLoaders4450FinalProject {
         
         glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
-        glEnable(GL_LIGHT1);
+        //glEnable(GL_LIGHT1);
         glEnable(GL_NORMALIZE);
         glEnable(GL_COLOR_MATERIAL);
         glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
@@ -111,10 +111,10 @@ public class ChunkLoaders4450FinalProject {
         //glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);
         glLight(GL_LIGHT0, GL_AMBIENT, dimLight);
         
-        glLight(GL_LIGHT1, GL_POSITION, light1Pos);
+        /*glLight(GL_LIGHT1, GL_POSITION, light1Pos);
         glLight(GL_LIGHT1, GL_SPECULAR, black);
         glLight(GL_LIGHT1, GL_DIFFUSE, difLight);
-        glLight(GL_LIGHT1, GL_AMBIENT, black);
+        glLight(GL_LIGHT1, GL_AMBIENT, black);*/
     }
     
     private void updateLightPosition(){
@@ -131,6 +131,8 @@ public class ChunkLoaders4450FinalProject {
     private void render()
     {
         boolean flying = true;
+        long startTime = System.currentTimeMillis();
+
         while (!Display.isCloseRequested())
         {
             try
@@ -139,8 +141,13 @@ public class ChunkLoaders4450FinalProject {
                     flying = !flying;
                 }
                 
+                
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
                 glLoadIdentity(); 
+                
+                updateSunPosition(startTime); // update sun position
+
+
                 
                 // Update mouse and keyboard movements
                 mouseMove.update();
@@ -222,11 +229,37 @@ public class ChunkLoaders4450FinalProject {
 
 
         black = BufferUtils.createFloatBuffer(4);
-        black.put(0.0f).put(0.0f).put(0.0f).put(1.0f).flip();
-
-        
-        
+        black.put(0.0f).put(0.0f).put(0.0f).put(1.0f).flip();  
     }
+    
+private void updateSunPosition(long startTime) {
+    long currentTime = System.currentTimeMillis();
+    float elapsedSeconds = (currentTime - startTime) / 1000.0f;
+    float cycleTime = 24.0f;  // 48 seconds full rotation
+    float angle = (elapsedSeconds / cycleTime) * 360.0f % 360.0f;
+
+    float radius = 200.0f;  // distance from world center
+    float radian = (float) Math.toRadians(angle);
+
+    float sunX = (float) Math.cos(radian) * radius;
+    float sunY = 50.0f;  // fixed height above ground
+    float sunZ = (float) Math.sin(radian) * radius;
+
+    // Update directional light position
+    lightPosition.clear();
+    lightPosition.put(sunX).put(sunY).put(sunZ).put(0.0f);  // directional light
+    lightPosition.flip();
+    glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+
+    
+    float brightness = Math.max(0.1f, sunY / radius);  // stays at 1.0 here, since Y is fixed
+    dimLight.clear();
+    dimLight.put(brightness).put(brightness).put(brightness).put(1.0f);
+    dimLight.flip();
+    glLight(GL_LIGHT0, GL_AMBIENT, dimLight);
+}
+
+
 
     /**
      * @param args the command line arguments
