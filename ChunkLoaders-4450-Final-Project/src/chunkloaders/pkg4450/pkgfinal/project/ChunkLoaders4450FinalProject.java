@@ -108,7 +108,7 @@ public class ChunkLoaders4450FinalProject {
         initLightArrays();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
         glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);
-        glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);
+        //glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);
         glLight(GL_LIGHT0, GL_AMBIENT, dimLight);
         
         glLight(GL_LIGHT1, GL_POSITION, light1Pos);
