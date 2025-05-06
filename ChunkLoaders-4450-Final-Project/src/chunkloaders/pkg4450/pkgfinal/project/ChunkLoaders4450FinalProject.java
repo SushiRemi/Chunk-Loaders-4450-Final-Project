@@ -44,9 +44,6 @@ public class ChunkLoaders4450FinalProject {
     private FloatBuffer lightPosition;
     private FloatBuffer whiteLight;
     private FloatBuffer dimLight;
-    private FloatBuffer light1Pos;
-    private FloatBuffer black;
-    private FloatBuffer difLight;
     
     
     public void start() 
@@ -101,6 +98,10 @@ public class ChunkLoaders4450FinalProject {
         
         glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         glEnable(GL_NORMALIZE);
         glEnable(GL_COLOR_MATERIAL);
         glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
@@ -110,13 +111,22 @@ public class ChunkLoaders4450FinalProject {
         //glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);
         glLight(GL_LIGHT0, GL_AMBIENT, dimLight);
         
+<<<<<<< Updated upstream
        
+=======
+        // sun
+        glEnable(GL_POINT_SMOOTH);
+        glPointSize(100.0f);  // for testing
+
+        
+
+>>>>>>> Stashed changes
     }
     
     private void updateLightPosition(){
         Vector3f camPos = camera.getPosition();
         lightPosition.clear();
-        lightPosition.put(1.0f).put(-1.0f).put(1.0f).put(0.0f);
+        lightPosition.put(1.0f).put(-1.0f).put(1.0f).put(5.0f);
         lightPosition.flip();
 
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
@@ -136,7 +146,14 @@ public class ChunkLoaders4450FinalProject {
                 if (Keyboard.isKeyDown(Keyboard.KEY_F)) {
                     flying = !flying;
                 }
+<<<<<<< Updated upstream
                 
+=======
+
+                // Update sky based on timing
+                updateSkyColor();
+
+>>>>>>> Stashed changes
                 
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
                 glLoadIdentity(); 
@@ -206,19 +223,31 @@ public class ChunkLoaders4450FinalProject {
     }
     
     private void initLightArrays(){
+        //  start light position at (-100,0,0)
         lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(-1.0f).put(0.0f).put(0.0f).put(0.0f).flip();
+        //  put light 100 pt away
+        lightPosition.put(-1.0f).put(0.0f).put(0.0f).put(100.0f).flip();
+        
+        // a white light, opacity 100%
         whiteLight = BufferUtils.createFloatBuffer(4);
         whiteLight.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
+        
+        // a soft background light
         dimLight = BufferUtils.createFloatBuffer(4);
         dimLight.put(0.1f).put(0.1f).put(0.1f).put(1.0f).flip();
-        
-        light1Pos = BufferUtils.createFloatBuffer(4);
 
-        light1Pos.put(1.0f).put(-1.0f).put(0.0f).put(0.0f).flip();  // directional
+    }
+    
+    private void drawSunDot(float x, float y, float z) {
+        glDisable(GL_LIGHTING);  // disable lighting so color shows fully
 
+        glColor3f(1.0f, 0.9f, 0.6f);  // warm glowing yellow color
 
+        glBegin(GL_POINTS);
+        glVertex3f(x, y, z);
+        glEnd();
 
+<<<<<<< Updated upstream
         difLight = BufferUtils.createFloatBuffer(4);
         difLight.put(0.3f).put(0.3f).put(0.4f).put(1.0f).flip();
 
@@ -232,9 +261,24 @@ public class ChunkLoaders4450FinalProject {
         long currentTime = System.currentTimeMillis();
         float elapsedSeconds = (currentTime - startTime) / 1000.0f;
         float cycleTime = 24.0f;  // 24 seconds full rotation
+=======
+        glEnable(GL_LIGHTING);  // Re-enable lighting after drawing
+    }
+
+
+
+    // based on the above time and angle, adjust color to time
+    private void updateSkyColor() 
+    {
+        long currentTime = System.currentTimeMillis();
+        float elapsedSeconds = (currentTime - worldStartTime) / 1000.0f;
+        float cycleTime = 24.0f;  // 24s cycle
+>>>>>>> Stashed changes
         float angle = (elapsedSeconds / cycleTime) * 360.0f % 360.0f;
+        float radian = (float) Math.toRadians(angle);
 
         float radius = 100.0f;
+<<<<<<< Updated upstream
         float radian = (float) Math.toRadians(angle);
 
         float sunX = (float) Math.cos(radian) * radius;
@@ -253,6 +297,44 @@ public class ChunkLoaders4450FinalProject {
         dimLight.put(brightness).put(brightness).put(brightness).put(1.0f);
         dimLight.flip();
         glLight(GL_LIGHT0, GL_AMBIENT, dimLight);
+=======
+
+        // sun position (for light)
+        float sunX = (float) Math.cos(radian) * radius;
+        float sunY = (float) Math.sin(radian) * radius;
+        float sunZ = (float) Math.sin(radian) * radius;
+
+        lightPosition.clear();
+        lightPosition.put(sunX).put(sunY).put(0.0f).put(100.0f);  // update light position
+        lightPosition.flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+
+        // calculate normalized time factor 
+        float t = (float) Math.sin(radian);  
+        float normalizedT = (t + 1.0f) / 2.0f;  
+
+        // update ambient dim light aligned with time factor
+        float brightness = lerp(0.1f, 1.0f, normalizedT);
+        dimLight.clear();
+        dimLight.put(brightness).put(brightness).put(brightness).put(1.0f);
+        dimLight.flip();
+        glLight(GL_LIGHT0, GL_AMBIENT, dimLight);
+
+        // update sky color (aligned with same time factor)
+        float r = lerp(0.1f, 0.6f, normalizedT);
+        float g = lerp(0.1f, 0.8f, normalizedT);
+        float b = lerp(0.2f, 1.0f, normalizedT);
+
+        glClearColor(r, g, b, 1.0f);
+    
+
+    }
+    
+    // Linear interpolation
+    private float lerp(float a, float b, float t) 
+    {
+        return a + t * (b - a);
+>>>>>>> Stashed changes
     }
 
 
