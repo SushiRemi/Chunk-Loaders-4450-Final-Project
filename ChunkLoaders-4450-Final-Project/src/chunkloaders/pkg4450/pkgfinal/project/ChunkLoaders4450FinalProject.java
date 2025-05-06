@@ -40,6 +40,9 @@ public class ChunkLoaders4450FinalProject {
     int[][][] undergroundBlockMap;
     int baseHeight;
     long seed;
+
+    // Day/Night Sky Change Sync
+    private long worldStartTime;
     
     private FloatBuffer lightPosition;
     private FloatBuffer whiteLight;
@@ -56,6 +59,8 @@ public class ChunkLoaders4450FinalProject {
         { 
             initializeTerrain(50, 2, 2); //To generate Terrain map with parameters(base height, chunk width, chunk length)
             createWindow(); 
+            // Start world time!
+            worldStartTime = System.currentTimeMillis();
             initGL(); 
             render();
         } 
@@ -138,6 +143,9 @@ public class ChunkLoaders4450FinalProject {
                 if (Keyboard.isKeyDown(Keyboard.KEY_F)) {
                     flying = !flying;
                 }
+
+                // Update sky based on timing
+                updateSkyColor();
                 
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
                 glLoadIdentity(); 
@@ -226,6 +234,32 @@ public class ChunkLoaders4450FinalProject {
 
         
         
+    }
+
+    // Based on the above time and angle, adjust color to time
+    private void updateSkyColor() 
+    {
+        long currentTime = System.currentTimeMillis();
+        float elapsedSeconds = (currentTime - worldStartTime) / 1000.0f;
+        float cycleTime = 24.0f;  // based on above time
+        float angle = (elapsedSeconds / cycleTime) * 360.0f % 360.0f;
+
+        float t = (float) Math.sin(Math.toRadians(angle)); // -1 to 1
+
+        // Normalize t to 0–1
+        float normalizedT = (t + 1.0f) / 2.0f;
+
+        // Interpolate between night and day colors
+        float r = lerp(0.1f, 0.6f, normalizedT);
+        float g = lerp(0.1f, 0.8f, normalizedT);
+        float b = lerp(0.2f, 1.0f, normalizedT);
+
+        glClearColor(r, g, b, 1.0f);
+    }
+    // Linear interpolation
+    private float lerp(float a, float b, float t) 
+    {
+        return a + t * (b - a);
     }
 
     /**
