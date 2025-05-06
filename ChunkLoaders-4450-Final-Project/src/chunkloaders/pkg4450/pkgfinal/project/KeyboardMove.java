@@ -20,8 +20,8 @@ public class KeyboardMove {
     }
 
     public void update() {
-        float dx = (float) Math.sin(Math.toRadians(this.camera.yaw)) * speed;
-        float dz = (float) Math.cos(Math.toRadians(this.camera.yaw)) * speed;
+        //float dx = (float) Math.sin(Math.toRadians(this.camera.yaw)) * speed;
+        //float dz = (float) Math.cos(Math.toRadians(this.camera.yaw)) * speed;
         float dy = speed;
         
         ///////////////////

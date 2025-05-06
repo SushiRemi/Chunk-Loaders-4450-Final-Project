@@ -81,15 +81,53 @@ public class ChunkLoaders4450FinalProject {
         // Pin mouse to window
         Mouse.setGrabbed(true);
         mouseMove = new MouseMove(camera);
+<<<<<<< Updated upstream
+=======
+        
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+        glEnable(GL_LIGHT1);
+        glEnable(GL_NORMALIZE);
+        glEnable(GL_COLOR_MATERIAL);
+        glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+        initLightArrays();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+        glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);
+        //glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);
+        glLight(GL_LIGHT0, GL_AMBIENT, dimLight);
+        
+        glLight(GL_LIGHT1, GL_POSITION, light1Pos);
+        glLight(GL_LIGHT1, GL_SPECULAR, black);
+        glLight(GL_LIGHT1, GL_DIFFUSE, difLight);
+        glLight(GL_LIGHT1, GL_AMBIENT, black);
+>>>>>>> Stashed changes
     }
     private void render()
     {
+<<<<<<< Updated upstream
+=======
+        boolean flying = true;
+        long startTime = System.currentTimeMillis();
+
+>>>>>>> Stashed changes
         while (!Display.isCloseRequested())
         {
             try
             {
+<<<<<<< Updated upstream
+=======
+                if (Keyboard.isKeyDown(Keyboard.KEY_F)) {
+                    flying = !flying;
+                }
+                
+                
+>>>>>>> Stashed changes
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
                 glLoadIdentity(); 
+                
+                updateSunPosition(startTime); // update sun position
+
+
                 
                 // Update mouse and keyboard movements
                 mouseMove.update();
@@ -135,7 +173,73 @@ public class ChunkLoaders4450FinalProject {
         
         //heightMap = new int[chunkWidth * chunkSize][chunkLength * chunkSize];
         heightMap = TerrainGenerator.getRandomHeightMap(seed, worldWidth, worldLength, baseHeight);
+<<<<<<< Updated upstream
+=======
+        
+        
+        //New seed for top block gen
+        seed = rand.nextLong();
+        System.out.println("Randomly Generated Top Block Map Seed: " + seed);
+        
+        topBlockMap = TerrainGenerator.getRandomTopBlockMap(seed, worldWidth, worldLength);
+        
+        //New seed for underground block gen
+        seed = rand.nextLong();
+        System.out.println("Randomly Generated Underground Block Map Seed: " + seed);
+        
+        undergroundBlockMap = TerrainGenerator.getRandomUndergroundBlockMap(seed, worldWidth, worldLength);
     }
+    
+    private void initLightArrays(){
+        lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(-1.0f).put(0.0f).put(0.0f).put(0.0f).flip();
+        whiteLight = BufferUtils.createFloatBuffer(4);
+        whiteLight.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
+        dimLight = BufferUtils.createFloatBuffer(4);
+        dimLight.put(0.1f).put(0.1f).put(0.1f).put(1.0f).flip();
+        
+        light1Pos = BufferUtils.createFloatBuffer(4);
+
+        light1Pos.put(1.0f).put(-1.0f).put(0.0f).put(0.0f).flip();  // directional
+
+
+
+        difLight = BufferUtils.createFloatBuffer(4);
+        difLight.put(0.3f).put(0.3f).put(0.4f).put(1.0f).flip();
+
+
+
+        black = BufferUtils.createFloatBuffer(4);
+        black.put(0.0f).put(0.0f).put(0.0f).put(1.0f).flip();  
+>>>>>>> Stashed changes
+    }
+    
+    private void updateSunPosition(long startTime) {
+        long currentTime = System.currentTimeMillis();
+        float elapsedSeconds = (currentTime - startTime) / 1000.0f;
+        float cycleTime = 24.0f;  // 24 seconds full rotation
+        float angle = (elapsedSeconds / cycleTime) * 360.0f % 360.0f;
+
+        float radius = 100.0f;  // distance from world center
+        float radian = (float) Math.toRadians(angle);
+        float sunX = (float) Math.cos(radian) * radius;
+        float sunY = (float) Math.sin(radian) * radius;
+        float sunZ = 0.0f;
+
+     // update light position
+        lightPosition.clear();
+        lightPosition.put(sunX).put(sunY).put(sunZ).put(0.0f);  // directional light
+        lightPosition.flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+
+        // adjust ambient brightness
+        float brightness = Math.max(0.1f, sunY / radius);
+        dimLight.clear();
+        dimLight.put(brightness).put(brightness).put(brightness).put(1.0f);
+        dimLight.flip();
+        glLight(GL_LIGHT0, GL_AMBIENT, dimLight);
+    }
+
 
     /**
      * @param args the command line arguments
