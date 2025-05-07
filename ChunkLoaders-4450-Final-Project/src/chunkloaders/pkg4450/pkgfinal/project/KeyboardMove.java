@@ -20,8 +20,8 @@ public class KeyboardMove {
     }
 
     public void update(boolean isFlying) {
-        float dx = (float) Math.sin(Math.toRadians(this.camera.yaw)) * speed;
-        float dz = (float) Math.cos(Math.toRadians(this.camera.yaw)) * speed;
+        //float dx = (float) Math.sin(Math.toRadians(this.camera.yaw)) * speed;
+        //float dz = (float) Math.cos(Math.toRadians(this.camera.yaw)) * speed;
         float dy = speed;
         boolean fly = isFlying;
         
@@ -44,13 +44,13 @@ public class KeyboardMove {
                 camera.strafeRight(speed);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-                camera.moveDown(speed);
-            }
-            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
                 camera.moveUp(speed);
             }
+            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+                camera.moveDown(speed);
+            }
         } else {
-            camera.moveUp(2*speed); //simulate gravity
+            camera.moveDown(2*speed); //simulate gravity
             
             if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
                 camera.moveForward(speed);
@@ -65,7 +65,7 @@ public class KeyboardMove {
                 camera.strafeRight(speed);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) && Keyboard.isRepeatEvent() == false) {
-                camera.moveDown(2);
+                camera.moveUp(2);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
                 //camera.moveUp(speed);
